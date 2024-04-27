@@ -16,7 +16,7 @@
     <!--nav-->
     <nav class="navbar navbar-expand-lg bg-dark ">
         <div class="container-fluid">
-            <a class="navbar-brand text-light" href="#">Categories Classifier</a>
+            <a class="navbar-brand text-light" href="#">Product Classifier</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -27,16 +27,19 @@
                     <li class="nav-item">
                         <a class="nav-link text-light active" aria-current="page" href="#">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-light" href="#">Architecture</a>
+                    <li class="nav-item" hrer>
+                        <a class="nav-link text-light"
+                            href="https://colab.research.google.com/drive/1Z0WJQHi97QsqRcW9t09OYJh9hLCkpSgf">Colab</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-light" aria-disabled="true">Notebook</a>
+                        <a class="nav-link text-light" href="#" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal">About</a>
                     </li>
                 </ul>
 
-                <a class="btn btn-outline-light" type="submit"> <i class="fa-brands fa-github"
-                        style="color: #63E6BE;"></i> Source code</a>
+                <a class="btn btn-outline-light"
+                    href="https://github.com/tdatIT/product-classification-tensorflow-retnet50"> <i
+                        class="fa-brands fa-github" style="color: #63E6BE;"></i> Source code</a>
 
             </div>
         </div>
@@ -47,21 +50,20 @@
         <p class="text-center">Ứng dụng sử dụng Deep Learning trong việc phân loại sản phẩm</p>
         <div class="row">
             <div class="col-md-6">
-
-
-
                 <div class="file-upload mt-5">
                     <button class="file-upload-btn" type="button"
                         onclick="$('.file-upload-input').trigger( 'click' )">Upload Ảnh</button>
 
                     <div class="image-upload-wrap">
-                        <input class="file-upload-input" type='file' onchange="readURL(this);" accept="image/*" />
+                        <input id="image-input" class="file-upload-input" type='file' onchange="readURL(this);"
+                            accept="image/*" />
                         <div class="drag-text">
                             <h3>Kéo thả hình ảnh vào đây</h3>
                         </div>
                     </div>
                     <div class="file-upload-content">
                         <img class="file-upload-image" src="#" alt="your image" />
+                        <p id="filename-display"></p>
                         <div class="image-title-wrap">
                             <button type="button" onclick="removeUpload()" class="remove-image">Xóa <span
                                     class="image-title">Uploaded Image</span></button>
@@ -70,8 +72,10 @@
                 </div>
 
 
-                <div class="mt-5 file-upload">
-                    <button class="file-upload-btn" type="button">Phân loại sản phẩm <i
+                <div class="mt-5 file-upload d-flex justify-content-between">
+                    <input id="num-class" type="number" class="m-lg-2 w-75"
+                        placeholder="Số lượng class dự đoán trả về" />
+                    <button id="predict-btn" class="file-upload-btn w-25" type="button">Phân loại<i
                             class="fa-solid fa-arrow-right"></i></button>
                 </div>
             </div>
@@ -79,21 +83,62 @@
 
                 <div class="file-upload mt-5">
                     <h4 class="text-center">Kết quả dự đoán</h4>
-                    <ul>
-                        <li>Thời gian: <span class="badge text-bg-warning">120ms</span></li>
-                        <li>Kết quả:
-                            <span class="badge text-bg-secondary">Notifications:0.92</span>
-                            <span class="badge text-bg-secondary">Notifications:0.92</span>
-                            <span class="badge text-bg-secondary">Notifications:0.92</span>
-                        </li>
-                    </ul>
 
-                    <p>JSON Viewer</p>
-                    <pre id="json-display"></pre>
+                    <div id="spinner">
+                        <div class="d-flex justify-content-center">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="result-display">
+
+                        <ul>
+                            <li>Thời gian: <span id="display-total-time" class="badge text-bg-warning">120ms</span></li>
+                            <li id="display-predictions">Kết quả:
+                                <span class="badge text-bg-success">mobile:0.92</span>
+                                <span class="badge text-bg-success">clothes:0.92</span>
+                                <span class="badge text-bg-success">vehicle:0.92</span>
+                            </li>
+                        </ul>
+
+                        <p>JSON Viewer</p>
+                        <pre id="json-display"></pre>
+                    </div>
+
                 </div>
             </div>
         </div>
 
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Thông tin về đề tài</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Đây là đề tài cuối kỳ của môn học Deep Learning, áp dụng các kiến thức đã học xây dựng model xử lý
+                    bài toán image classification dựa trên thư viện tensorflow và kỹ thuật transfer learning
+                    (Resnet-50).
+                    Thông tin về đề tài:
+                    <ul>
+                        <li>Tên đề tài: Phân loại sản phẩm bằng hình ảnh áp dụng Deep learning</li>
+                        <li>GVHD: TS. Trần Nhật Quang</li>
+                        <li>Thực hiện bởi nhóm sinh viên:</li>
+                        <li>Trần Tiến Đạt - 20110457</li>
+                        <li>Trần Tiến Đạt - 20110457</li>
+                        <li>Trần Tiến Đạt - 20110457</li>
+
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    Trường Đại Học Sư Phạm Kỹ Thuật TP.HCM ©2024
+                </div>
+            </div>
+        </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
@@ -102,11 +147,11 @@
         integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
         crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/ae7c745789.js" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="/statics/js/jquery.json-editor.min.js"></script>
     <script src="/statics/js/upload.js"></script>
+    <script src="/statics/js/script.js"></script>
     <script>
         function getJson() {
             let data = `{
@@ -114,9 +159,9 @@
                 "total_times": "120ms",
                 "total_predicts": 3,
                 "predicts": [
-                    { "id": 1, "name": "mobile_phone", "confidence": 0.95},
-                    { "id": 2, "name": "clothes", "confidence": 0.72},
-                    { "id": 3, "name": "car", "confidence": 0.42}
+                    {"class_name": "mobile_phone", "confidence": 0.95},
+                    {"class_name": "clothes", "confidence": 0.72},
+                    {"class_name": "car", "confidence": 0.42}
                 ]
             }`;
             try {
