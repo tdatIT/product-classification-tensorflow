@@ -1,0 +1,7 @@
+server:
+  port: 5000
+
+
+model:
+  path: 'D:/Code/Python/final-project-deep-learning/tf_model/tf_model_052024.h5'
+  class_names: ['fashion', 'shoes_sandal', 'mobile_phone']
