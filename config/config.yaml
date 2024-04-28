@@ -3,5 +3,7 @@ server:
 
 
 model:
-  path: 'D:/Code/Python/final-project-deep-learning/tf_model/tf_model_052024.h5'
-  class_names: ['fashion', 'shoes_sandal', 'mobile_phone']
+  path: 'D:/Code/Python/final-project-deep-learning/tf_model/tf_model_052024_EfficientNetB07.h5'
+  class_names: ['balo_vali','bicycle','camera','digital_devices',
+               'fashion','glasses','household_electrical_appliance,',
+               'jewelry','laptop_computer','motocycle','phone_tablet','shoes_sandal']

@@ -12,10 +12,12 @@ def GetTensorflowVersion():
 class TFModel:
     def __init__(self, class_names, model_path):
         GetTensorflowVersion()
-        self.model = tf.keras.models.load_model(model_path)
+        self.model = tf.keras.models.load_model(model_path, compile=False)
         self.class_names = class_names
 
     def predict_img(self, image_url, num_classes=1):
+
+        print("Predicting image...", image_url, "- num_classes:", num_classes)
         start_time = time.time()
         img = keras.preprocessing.image.load_img(image_url,
                                                  target_size=(500, 500))
