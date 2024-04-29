@@ -3,6 +3,8 @@ import pandas as pd
 import tensorflow as tf
 import keras
 import time
+import gdown
+import os
 
 
 def GetTensorflowVersion():
@@ -12,7 +14,16 @@ def GetTensorflowVersion():
 class TFModel:
     def __init__(self, class_names, model_path):
         GetTensorflowVersion()
-        self.model = tf.keras.models.load_model(model_path, compile=False)
+        model = None
+        try:
+            model = tf.keras.models.load_model(model_path, compile=False)
+            print("Model already exists")
+        except:
+            print("Downloading model from Google Drive...")
+            new_model_path = download_model_from_google_drive()
+            model = tf.keras.models.load_model(new_model_path, compile=False)
+            
+        self.model = model
         self.class_names = class_names
 
     def predict_img(self, image_url, num_classes=1):
@@ -35,3 +46,17 @@ class TFModel:
                   confidence in zip(top_classes, top_confidences)}
 
         return result, round(total_time)
+
+
+def download_model_from_google_drive():
+    file_name = 'tf_model_052024_EfficientNetB07.h5'
+    basepath = os.path.dirname(__file__)
+    file_path = os.path.join(basepath, file_name)
+
+    url = 'https://drive.google.com/uc?id=1nDbopiR_TTm9mT8u-2XMtNyljUbJ8RPt'
+
+    gdown.download(url, file_path, quiet=False)
+
+    return file_path
+
+

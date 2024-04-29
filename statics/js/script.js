@@ -31,7 +31,7 @@ $('#predict-btn').on('click', function () {
 
             for (var i = 0; i < data['predicts'].length; i++) {
                 var prediction = data['predicts'][i];
-                var predictionDiv = '<span class="badge text-bg-success m-lg-2">' + prediction['class_name'] + ':' + prediction['confidence'] + '</span>';
+                var predictionDiv = '<span class="badge text-bg-success m-lg-2">' + prediction['class_name'] + ': ' + Math.round(prediction['confidence'] * 100) + '% </span>';
                 $('#display-predictions').append(predictionDiv);
             }
 
