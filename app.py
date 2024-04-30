@@ -9,7 +9,8 @@ import upload_url_img
 
 tf_instance = tf_model.TFModel(
     global_cfg.config['model']['class_names'],
-    global_cfg.config['model']['path']
+    global_cfg.config['model']['path'],
+    global_cfg.config['model']['drive_path']
 )
 
 # flask API

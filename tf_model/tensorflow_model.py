@@ -12,7 +12,7 @@ def GetTensorflowVersion():
 
 
 class TFModel:
-    def __init__(self, class_names, model_path):
+    def __init__(self, class_names, model_path, gg_path):
         GetTensorflowVersion()
         model = None
         try:
@@ -20,7 +20,7 @@ class TFModel:
             print("Model already exists")
         except:
             print("Downloading model from Google Drive...")
-            new_model_path = download_model_from_google_drive()
+            new_model_path = download_model_from_google_drive(gg_path)
             model = tf.keras.models.load_model(new_model_path, compile=False)
             
         self.model = model
@@ -48,12 +48,10 @@ class TFModel:
         return result, round(total_time)
 
 
-def download_model_from_google_drive():
-    file_name = 'tf_model_052024_EfficientNetB07.h5'
+def download_model_from_google_drive(url):
+    file_name = 'tf_model_052024_EfficientNetB06.keras'
     basepath = os.path.dirname(__file__)
     file_path = os.path.join(basepath, file_name)
-
-    url = 'https://drive.google.com/uc?id=1nDbopiR_TTm9mT8u-2XMtNyljUbJ8RPt'
 
     gdown.download(url, file_path, quiet=False)
 
